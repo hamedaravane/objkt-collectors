@@ -7,17 +7,6 @@ const con = mysql.createConnection({
     password: "12341234",
     database: "tzkt"
 });
-/*
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-    const sql = "INSERT INTO customers (id, address) VALUES ('Company Inc', 'Highway 37')";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("1 record inserted");
-    });
-});
-*/
 
 con.connect();
 console.log("Connected!");
@@ -42,8 +31,8 @@ for (offset; offset < count; offset += limit) {
     let i = 0;
     while (i < limit) {
         const sql = "INSERT INTO accounts (id, address) VALUES?";
-        let values = [[i, getAddress(i)]];
-        await con.query(sql, await [values], function (err, result) {
+        let values = [[i, await getAddress(i,offset)]];
+        con.query(sql, [values], function (err, result) {
             if (err) throw err;
             console.log("1 record inserted");
         });
