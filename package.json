@@ -1,6 +1,28 @@
 {
+  "main": "./commonjs/entry.js",
+  "module": "./dist/mypkg.esm.js",
   "type": "module",
   "dependencies": {
-    "node-fetch": "^3.2.4"
-  }
+    "mysql": "github:mysqljs/mysql",
+    "node-fetch": "^2.6.7",
+    "nodejs-mysql": "^0.1.3"
+  },
+  "name": "objkt-collectors",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamedaravane/objkt-collectors.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamedaravane/objkt-collectors/issues"
+  },
+  "homepage": "https://github.com/hamedaravane/objkt-collectors#readme"
 }
