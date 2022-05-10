@@ -30,8 +30,8 @@ for (offset; offset < count; offset += limit) {
     console.log("offset is:" + offset)
     let i = 0;
     while (i < limit) {
-        const sql = "INSERT INTO accounts (id, address) VALUES?";
-        let values = [[i, await getAddress(i, offset)]];
+        const sql = "INSERT INTO addressWallets (address) VALUES?";
+        let values = [[await getAddress(i, offset)]];
         con.query(sql, [values], function (err, result) {
             if (err) throw err;
             console.log("1 record inserted");
