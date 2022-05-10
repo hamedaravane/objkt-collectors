@@ -31,7 +31,7 @@ for (offset; offset < count; offset += limit) {
     let i = 0;
     while (i < limit) {
         const sql = "INSERT INTO accounts (id, address) VALUES?";
-        let values = [[i, await getAddress(i,offset)]];
+        let values = [[i, await getAddress(i, offset)]];
         con.query(sql, [values], function (err, result) {
             if (err) throw err;
             console.log("1 record inserted");
