@@ -1,5 +1,5 @@
 {
-  "main": "./commonjs/entry.js",
+  "main": "index.js",
   "module": "./dist/mypkg.esm.js",
   "type": "module",
   "dependencies": {
@@ -10,7 +10,6 @@
   "name": "objkt-collectors",
   "description": "",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
