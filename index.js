@@ -4,7 +4,7 @@ import mysql from "mysql";
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "12341234",
+    password: "1234",
     database: "tzkt"
 });
 
@@ -19,25 +19,27 @@ let limit = 100;
 let offset = 0;
 
 
-async function getAddress(i, offset) {
-    const response = await fetch(`https://api.tzkt.io/v1/accounts?select=address&offset=${offset}`)
-    const data = await response.json();
-    return data[i];
+async function getInfos(offset) {
+    const res = await fetch(`https://api.tzkt.io/v1/accounts?offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
+    let info = await res.json();
+
+    let properties;
+
+    info.forEach(element => {
+        properties = Object.keys(element).map((key) => element[key])
+    });
+
+    return properties;
 }
 
 
-for (offset; offset < count; offset += limit) {
-    console.log("offset is:" + offset)
-    let i = 0;
-    while (i < limit) {
-        const sql = "INSERT INTO addressWallets (address) VALUES?";
-        let values = [[await getAddress(i, offset)]];
-        con.query(sql, [values], function (err, result) {
-            if (err) throw err;
-            console.log("1 record inserted");
-        });
-        console.log(await getAddress(i, offset));
-        i++;
-        console.log("offset is:" + offset);
-    }
+for (let i = 0; i < count / limit; i += limit) {
+    const sql = "INSERT INTO addressWallets (type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime) VALUES ?"
+    console.log(await getInfos(i))
+    let values = [await getInfos(i)];
+    con.query(sql, [values], function (err, result) {
+        if (err) throw err;
+        console.log("100 record inserted");
+        console.log(values)
+    });
 }
