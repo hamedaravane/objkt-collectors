@@ -22,7 +22,7 @@ let offset = 0;
 async function getInfos(offset) {
     const res = await fetch(`https://api.tzkt.io/v1/accounts?type=user&offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
     let info = await res.json();
-    console.log(Object.values(info))
+    //console.log(Object.values(info))
     let propertyValues = [];
 
     for (let i = 0; i < 100; i++) {
@@ -36,7 +36,7 @@ async function getInfos(offset) {
 for (let i = 0; i < count / limit; i += limit) {
     const sql = "INSERT INTO addressWallets (type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime) VALUES ?"
     console.log(await getInfos(i))
-    let values = [await getInfos(i)];
+    let values = await getInfos(i);
     con.query(sql, [values], function (err, result) {
         if (err) throw err;
         console.log("100 record inserted");
