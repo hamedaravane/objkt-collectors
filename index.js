@@ -4,7 +4,7 @@ import mysql from "mysql";
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "1234",
+    password: "12341234",
     database: "tzkt"
 });
 
@@ -16,13 +16,12 @@ let count = await countRes.json();
 console.log(count);
 
 let limit = 10000;
-let offset = 0;
 
 
 async function getInfos(offset) {
-    const res = await fetch(`https://api.tzkt.io/v1/accounts?type=user&offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
+    const res = await fetch(`https://api.tzkt.io/v1/accounts?limit=${limit}&type=user&offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
     let info = await res.json();
-    //console.log(Object.values(info))
+    console.log(Object.values(info))
     let propertyValues = [];
 
     for (let i = 0; i < limit; i++) {
