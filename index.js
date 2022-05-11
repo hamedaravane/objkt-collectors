@@ -15,7 +15,7 @@ const countRes = await fetch('https://api.tzkt.io/v1/accounts/count');
 let count = await countRes.json();
 console.log(count);
 
-let limit = 100;
+let limit = 10000;
 let offset = 0;
 
 
@@ -25,7 +25,7 @@ async function getInfos(offset) {
     //console.log(Object.values(info))
     let propertyValues = [];
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < limit; i++) {
         propertyValues.push(Object.values(info[i]));
     }
 
