@@ -20,16 +20,16 @@ let offset = 0;
 
 
 async function getInfos(offset) {
-    const res = await fetch(`https://api.tzkt.io/v1/accounts?offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
+    const res = await fetch(`https://api.tzkt.io/v1/accounts?type=user&offset=${offset}&select=type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime`);
     let info = await res.json();
+    console.log(Object.values(info))
+    let propertyValues = [];
 
-    let properties;
+    for (let i = 0; i < 100; i++) {
+        propertyValues.push(Object.values(info[i]));
+    }
 
-    info.forEach(element => {
-        properties = Object.keys(element).map((key) => element[key])
-    });
-
-    return properties;
+    return propertyValues;
 }
 
 
