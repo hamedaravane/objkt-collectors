@@ -4,7 +4,7 @@ import mysql from "mysql";
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "1234",
+    password: "12341234",
     database: "tzkt"
 });
 
@@ -43,4 +43,4 @@ for (let i = 0; i < count / limit; i += limit) {
     });
 }
 
-con.end;
+con.end();

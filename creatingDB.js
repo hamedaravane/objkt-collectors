@@ -3,7 +3,7 @@ import mysql from "mysql";
 let con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "1234",
+    password: "12341234",
     database: "tzkt"
 });
 
@@ -15,5 +15,5 @@ con.connect(function(err) {
         if (err) throw err;
         console.log("Table created");
     });
-    con.end;
 });
+con.end();
