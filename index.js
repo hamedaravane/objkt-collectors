@@ -4,7 +4,7 @@ import mysql from "mysql";
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "12341234",
+    password: "1234",
     database: "tzkt"
 });
 
@@ -32,13 +32,13 @@ async function getInfos(offset) {
 }
 
 
-for (let i = 0; i < count / limit; i += limit) {
+for (let i = 2681000; i < count; i += limit) {
     const sql = "INSERT INTO accounts (type,address,publicKey,revealed,balance,counter,numContracts,activeTokensCount,tokenBalancesCount,tokenTransfersCount,numActivations,numDelegations,numOriginations,numTransactions,numReveals,numRegisterConstants,numSetDepositsLimits,numMigrations,firstActivity,firstActivityTime,lastActivity,lastActivityTime) VALUES ?"
     //console.log(await getInfos(i))
     let values = await getInfos(i);
     con.query(sql, [values], function (err, result) {
         if (err) throw err;
-        console.log(`${limit} record inserted`);
+        console.log(`${limit} record inserted, offset: ${i}`);
         //console.log(values)
     });
 }

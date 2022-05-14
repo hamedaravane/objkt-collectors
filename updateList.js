@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
-import mysql from "mysql";
+import mysql, {raw} from "mysql";
 
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "12341234",
+    password: "1234",
     database: "tzkt"
 });
 
@@ -18,13 +18,10 @@ function countRecords() {
             if (err) {
                 return reject(err);
             }
-            resolve(results);
+            resolve(results[0]);
         });
     });
 }
-
-let records = await countRecords();
-console.log(records);
 
 function getAddress(id) {
     return new Promise((resolve, reject) => {
@@ -33,6 +30,7 @@ function getAddress(id) {
             if (err) {
                 return reject(err);
             }
+            //console.log(results[id].address)
             resolve(results[id].address);
         });
     });
@@ -57,31 +55,22 @@ async function getTwitter(address) {
     })
     let data = await res.json();
     if (data.data.holder[0] === undefined) {
-        return '-'
+        return 'NULL'
+    } else {
+        return await data.data.holder[0].twitter;
     }
-    return await data.data.holder[0].twitter;
 }
 
-// console.log(await getAddress(87))
-//console.log(typeof await getAddress(1))
-// console.log(await getTwitter('tz1SG2YfQcMERXZC35A46r4d5tFiKFZFFWCr'))
-// let data = await getAddress(23);
-// console.log(await getTwitter(await data))
+console.log()
 
-for (let i = 0; i < 1000; i++) {
-    console.log(await getAddress(i))
-    console.log(await getTwitter(await getAddress(i)))
+for (let i = 681587; i >= 0; i--) {
+    const sql = await `UPDATE accounts SET twitter = ${JSON.stringify(await getTwitter(await getAddress(i)))} WHERE address = ?`
+    let address = await getAddress(i)
+    await con.query(sql, [address], function (err, result) {
+        if (err) throw err;
+        console.log(`record ${i} UPDATED, address: ${address}`);
+    });
 }
 
-
-// for (let i = 1; i < 100; i++) {
-//     const sql = await `UPDATE accounts SET twitter = ${getTwitter(getAddress(i))} WHERE id = &{i}`
-//
-//     await con.query(sql, function (err, result) {
-//         if (err) throw err;
-//         console.log("record UPDATE");
-//     });
-// }
-//
 
 con.end()

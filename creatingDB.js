@@ -3,7 +3,7 @@ import mysql from "mysql";
 let con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "12341234",
+    password: "1234",
     database: "tzkt"
 });
 

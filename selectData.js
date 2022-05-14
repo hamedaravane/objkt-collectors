@@ -1,36 +1,30 @@
 import mysql from "mysql";
+import fetch from "node-fetch";
 
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "12341234",
+    password: "1234",
     database: "tzkt"
 });
 
 con.connect();
 
-function get_info(data, callback){
-
-    let sql = "SELECT * FROM accounts";
-
-    con.query(sql, function(err, results){
-        if (err){
-            throw err;
-        }
-        console.log(results[0].address); // good
-        stuff_i_want = results[0].address;  // Scope is larger than function
-
-        return callback(results[0].address);
-    })
-}
-
-
-//usage
-
-let stuff_i_want = '';
-
-get_info(1, function(result){
-    stuff_i_want = result;
-
-    //rest of your code goes in here
-});
+const res = await fetch('https://data.objkt.com/v2/graphql', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        query: `
+            query MyQuery {
+              holder(where: {address: {_eq: "tz1XSAPA44Pf5cD4nCmyUGfYnHswCu7o6QgJ"}}) {
+                twitter
+              }
+            }
+        `
+    }),
+})
+let data = await res.json();
+console.log(data.data.holder[0])
+con.end();
